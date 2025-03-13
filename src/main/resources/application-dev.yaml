@@ -1,0 +1,24 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/user
+    username: postgres
+    password: q5sOl4GJf7
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update # options: validate, update, create, create-drop
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+  security:
+    enabled: false
+  kafka:
+    bootstrap-servers: localhost:9093
+security:
+  ignored: /**
+  basic:
+    enabled: false # Disables basic authentication
+  user:
+    name: user # Default username (optional if disabling security)
+    password: password # Default password (optional if disabling security)

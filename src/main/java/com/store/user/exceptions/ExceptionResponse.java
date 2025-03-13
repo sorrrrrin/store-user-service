@@ -1,4 +1,4 @@
-package exceptions;
+package com.store.user.exceptions;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
