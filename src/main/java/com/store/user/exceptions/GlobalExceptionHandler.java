@@ -1,4 +1,4 @@
-package exceptions;
+package com.store.user.exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +27,7 @@ public class GlobalExceptionHandler {
                 "An unexpected error occurred",
                 LocalDateTime.now()
         );
-        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 }
 

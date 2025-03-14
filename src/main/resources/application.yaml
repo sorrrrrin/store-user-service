@@ -1,0 +1,40 @@
+server:
+  port: 8082
+spring:
+  application:
+    name: user-service
+  profiles:
+    #    active: dev  # Default to dev if no profile is explicitly set
+    active: dev, kafka-enabled  # Default to dev if no profile is explicitly set
+  kafka:
+    consumer:
+      group-id: user-service-group
+    topic: my-topic
+management:
+  endpoints:
+    web:
+      exposure:
+        #include: "*" # Expose all Actuator endpoints (if using Actuator)
+        include: health,info,prometheus
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+  security:
+    enabled: false # Disable Actuator security
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true
+logging:
+  level:
+    root: INFO
+    com.store: DEBUG
+#  level:
+#    org:
+#      apache:
+#        kafka: DEBUG
+security:
+  jwt:
+    secret-key: ZDbiJXqjL06maIhSmDftCQy7bD5J3fLFOFlOlgmNa+U=
