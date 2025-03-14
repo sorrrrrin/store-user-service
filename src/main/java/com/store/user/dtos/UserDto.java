@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Set;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -17,4 +19,8 @@ public class UserDto {
     private AddressDto address;
     private String creditCard;
     private String creditCardType;
+    private String username;
+    private String password;
+    private boolean enabled;
+    private Set<AuthorityDto> authorities;
 }

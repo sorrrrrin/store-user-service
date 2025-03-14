@@ -35,3 +35,6 @@ logging:
 #    org:
 #      apache:
 #        kafka: DEBUG
+security:
+  jwt:
+    secret-key: ZDbiJXqjL06maIhSmDftCQy7bD5J3fLFOFlOlgmNa+U=

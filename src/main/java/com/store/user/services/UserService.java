@@ -9,14 +9,17 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 @Slf4j
-public class UserService {
+public class UserService implements UserDetailsService {
     @Value("${spring.kafka.topic}")
     private String topic;
 
@@ -26,11 +29,27 @@ public class UserService {
 
     private final KafkaTemplate<String, String> kafkaTemplate;
 
+    private final PasswordEncoder passwordEncoder;
+
     @Autowired
-    public UserService(UserMapper userMapper, UserRepository userRepository, KafkaTemplate<String, String> kafkaTemplate) {
+    public UserService(UserMapper userMapper, UserRepository userRepository, KafkaTemplate<String, String> kafkaTemplate, PasswordEncoder passwordEncoder) {
         this.userMapper = userMapper;
         this.userRepository = userRepository;
         this.kafkaTemplate = kafkaTemplate;
+        this.passwordEncoder = passwordEncoder;
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UserNotFoundException {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UserNotFoundException("User not found with username: " + username));
+        return new org.springframework.security.core.userdetails.User(
+                user.getUsername(),
+                user.getPassword(),
+                user.getAuthorities().stream()
+                        .map(authority -> (GrantedAuthority) authority)
+                        .collect(Collectors.toList())
+        );
     }
 
     public List<UserDto> getAllUsers() {
@@ -42,6 +61,9 @@ public class UserService {
     }
 
     public UserDto addUser(UserDto userDto) {
+        String encodedPassword = passwordEncoder.encode(userDto.getPassword());
+        userDto.setPassword(encodedPassword);
+
         return userMapper.userToUserDto(userRepository.save(userMapper.userDtoToUser(userDto)));
     }
 
