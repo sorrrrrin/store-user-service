@@ -1,8 +1,10 @@
 package com.store.user.utils;
 
 import com.store.user.dtos.AddressDto;
+import com.store.user.dtos.AuthorityDto;
 import com.store.user.dtos.UserDto;
 import com.store.user.entities.Address;
+import com.store.user.entities.Authority;
 import com.store.user.entities.User;
 
 public class TestUtils {
@@ -10,6 +12,7 @@ public class TestUtils {
         return User.builder()
                 .id(TestConstants.USER_ID)
                 .email(TestConstants.USER_EMAIL)
+                .username(TestConstants.USER_USERNAME)
                 .build();
     }
 
@@ -29,6 +32,20 @@ public class TestUtils {
     public static AddressDto getAddressDto() {
         return AddressDto.builder()
                 .street(TestConstants.ADDRESS_STREET)
+                .build();
+    }
+
+    public static Authority getAuthority() {
+        return Authority.builder()
+                .id(TestConstants.AUTHORITY_ID)
+                .authority(TestConstants.AUTHORITY_AUTHORITY)
+                .build();
+    }
+
+    public static AuthorityDto getAuthorityDto() {
+        return AuthorityDto.builder()
+                .id(TestConstants.AUTHORITY_ID)
+                .authority(TestConstants.AUTHORITY_AUTHORITY)
                 .build();
     }
 
