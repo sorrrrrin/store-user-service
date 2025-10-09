@@ -1,0 +1,13 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user-service
+spec:
+  template:
+    spec:
+      containers:
+        - name: user-service
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: dev,kafka-enabled
+

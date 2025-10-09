@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: user-service
+  template:
+    metadata:
+      labels:
+        app: user-service
+    spec:
+      containers:
+        - name: user-service
+          image: user-service:latest # user-service:v1.0.0
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080 # The port on the pod
+          envFrom:
+            - configMapRef:
+                name: user-service-config
+            - secretRef:
+                name: user-service-secret
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: "${SPRING_PROFILES_ACTIVE}" # Set via kustomize/overlay for dev, stg, prod
+            - name: SECURITY_JWT_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: user-service-secret
+                  key: SECURITY_JWT_SECRET_KEY
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "100m"
+            limits:
+              memory: "512Mi"
+              cpu: "200m"

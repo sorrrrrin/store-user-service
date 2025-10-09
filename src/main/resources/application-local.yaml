@@ -1,0 +1,54 @@
+# application-local.yaml
+server:
+  port: 8082
+spring:
+  application:
+    name: user-service
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/user}
+    username: ${SPRING_DATASOURCE_USERNAME:postgres}
+    password: ${SPRING_DATASOURCE_PASSWORD:q5sOl4GJf7}
+    driver-class-name: ${SPRING_DATASOURCE_DRIVER_CLASS_NAME:org.postgresql.Driver}
+  jpa:
+    hibernate:
+      ddl-auto: ${SPRING_JPA_HIBERNATE_DDL_AUTO:update}
+    show-sql: ${SPRING_JPA_SHOW_SQL:true}
+    properties:
+      hibernate:
+        format_sql: ${SPRING_JPA_PROPERTIES_HIBERNATE_FORMAT_SQL:true}
+  security:
+    enabled: ${SPRING_SECURITY_ENABLED:false}
+  kafka:
+    bootstrap-servers: ${SPRING_KAFKA_BOOTSTRAP_SERVERS:localhost:9093}
+    consumer:
+      group-id: user-service-group
+    topic: my-topic
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+  security:
+    enabled: false
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true
+logging:
+  level:
+    root: INFO
+    com.store: DEBUG
+security:
+  ignored: ${SECURITY_IGNORED:/**}
+  basic:
+    enabled: ${SECURITY_BASIC_ENABLED:false}
+  user:
+    name: ${SECURITY_USER_NAME:user}
+    password: ${SECURITY_USER_PASSWORD:password}
+  jwt:
+    secret-key: ${SECURITY_JWT_SECRET_KEY:ZDbiJXqjL06maIhSmDftCQy7bD5J3fLFOFlOlgmNa+U=}
