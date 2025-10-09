@@ -3,10 +3,11 @@ server:
 spring:
   application:
     name: user-service
-  profiles:
-    #    active: dev  # Default to dev if no profile is explicitly set
-    active: dev, kafka-enabled  # Default to dev if no profile is explicitly set
+# profiles set with kustomize overlays, and for local development in IDE configuration
+# profiles:
+    #active: local, kafka-enabled
   kafka:
+    bootstrap-servers: ${SPRING_KAFKA_BOOTSTRAP_SERVERS}
     consumer:
       group-id: user-service-group
     topic: my-topic
@@ -36,5 +37,12 @@ logging:
 #      apache:
 #        kafka: DEBUG
 security:
+  ignored: ${SECURITY_IGNORED}
+  basic:
+    enabled: ${SECURITY_BASIC_ENABLED}
+  user:
+    name: ${SECURITY_USER_NAME}
+    password: ${SECURITY_USER_PASSWORD}
   jwt:
-    secret-key: ZDbiJXqjL06maIhSmDftCQy7bD5J3fLFOFlOlgmNa+U=
+    secret-key: ${SECURITY_JWT_SECRET_KEY}
+
