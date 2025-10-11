@@ -1,5 +1,5 @@
 server:
-  port: 8082
+  port: 8080
 spring:
   application:
     name: user-service
@@ -8,8 +8,6 @@ spring:
     #active: local, kafka-enabled
   kafka:
     bootstrap-servers: ${SPRING_KAFKA_BOOTSTRAP_SERVERS}
-    consumer:
-      group-id: user-service-group
     topic: my-topic
 management:
   endpoints:

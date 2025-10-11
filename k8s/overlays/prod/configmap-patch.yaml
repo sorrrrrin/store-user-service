@@ -5,4 +5,5 @@ metadata:
   labels:
     app: user-service
 data:
-  # Add or override other keys as needed for prod
+  EXAMPLE_KEY: "dev-value"
+  # Add or override other keys as needed for dev

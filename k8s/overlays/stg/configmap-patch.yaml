@@ -3,5 +3,5 @@ kind: ConfigMap
 metadata:
   name: user-service-config
 data:
-  SPRING_DATASOURCE_URL: jdbc:postgresql://postgresql.backend:5432/user
-  # Add or override other keys as needed for stg
+  EXAMPLE_KEY: "dev-value"
+  # Add or override other keys as needed for dev
