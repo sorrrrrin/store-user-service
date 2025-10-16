@@ -17,7 +17,7 @@ spec:
           image: user-service:latest # user-service:v1.0.0
           imagePullPolicy: IfNotPresent
           ports:
-            - containerPort: 8080 # The port on the pod
+            - containerPort: 8080 # The port on the pod, that app used
           envFrom:
             - configMapRef:
                 name: user-service-config

@@ -25,4 +25,4 @@ patches:
       kind: Deployment
 images:
   - name: user-service
-    newTag: v1.0.0
+    newTag: latest #v1.0.0

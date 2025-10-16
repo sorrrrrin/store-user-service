@@ -8,6 +8,6 @@ spec:
   ports:
     - protocol: TCP
       port: 8082 # The port on the service
-      targetPort: 8080 # The port on the pod
+      targetPort: 8080 # The port on the pod (minikube worked)
   type: ClusterIP
 

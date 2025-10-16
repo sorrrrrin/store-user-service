@@ -9,5 +9,6 @@ spec:
         - name: user-service
           env:
             - name: SPRING_PROFILES_ACTIVE
-              value: dev,kafka-enabled
+              value: dev, kafka-enabled
+
 

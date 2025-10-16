@@ -25,4 +25,6 @@ patches:
       kind: Deployment
 images:
   - name: user-service
+    #use the newName field if you want to change the image repository (github not minikube)
+#    newName: ghcr.io/sorrrrrin/user-service
     newTag: latest #v1.0.0

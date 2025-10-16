@@ -1,6 +1,4 @@
 # application-prod.yaml
-server:
-  port: 8080
 spring:
   application:
     name: user-service
@@ -19,7 +17,8 @@ spring:
   security:
     enabled: ${SPRING_SECURITY_ENABLED}
   kafka:
-    bootstrap-servers: ${SPRING_KAFKA_BOOTSTRAP_SERVERS}
+    consumer:
+      group-id: user-service-group-prod
 security:
   ignored: ${SECURITY_IGNORED}
   basic:

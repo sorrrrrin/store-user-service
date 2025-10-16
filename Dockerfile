@@ -8,4 +8,4 @@ WORKDIR /app
 COPY target/*.jar app.jar
 
 # Run the application
-ENTRYPOINT ["java", "-jar", "/app/app.jar"]
+ENTRYPOINT ["java", "-XX:+UseContainerSupport", "-XX:InitialRAMPercentage=30.0", "-XX:MaxRAMPercentage=60.0", "-XX:+ExitOnOutOfMemoryError", "-XX:+UseG1GC", "-jar", "app.jar"]
