@@ -27,7 +27,7 @@ jobs:
           name: app-jar
           path: target/*.jar
 
-  build-and-push:
+  push-docker-image:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     needs: build-and-test
     runs-on: ubuntu-latest
