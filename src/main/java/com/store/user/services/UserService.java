@@ -53,7 +53,7 @@ public class UserService implements UserDetailsService {
     }
 
     public List<UserDto> getAllUsers() {
-        log.debug("Getting all users.");
+        log.debug("Getting all existing users.");
         return userRepository.findAll().stream().map(userMapper::userToUserDto).collect(Collectors.toList());
     }
 
