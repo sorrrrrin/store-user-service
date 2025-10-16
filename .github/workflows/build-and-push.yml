@@ -74,3 +74,10 @@ jobs:
           git fetch origin main --depth=1
           git tag ${{ env.VERSION }} ${{ github.sha }}
           git push origin ${{ env.VERSION }}
+
+      - name: Trigger deploy in infrastructure repo
+        uses: peter-evans/repository-dispatch@v3
+        with:
+          token: ${{ secrets.GHCR_TOKEN }}
+          repository: sorrrrrin/workspace-portofolio
+          event-type: deploy
