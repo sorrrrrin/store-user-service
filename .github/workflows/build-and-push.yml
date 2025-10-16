@@ -79,5 +79,5 @@ jobs:
         uses: peter-evans/repository-dispatch@v3
         with:
           token: ${{ secrets.GHCR_TOKEN }}
-          repository: sorrrrrin/workspace-portofolio
+          repository: sorrrrrin/store-infrastructure
           event-type: deploy
