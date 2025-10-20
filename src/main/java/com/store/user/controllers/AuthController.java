@@ -86,4 +86,5 @@ public class AuthController {
     public static boolean isTokenInvalidated(String token) {
         return invalidatedTokens.contains(token);
     }
+
 }
