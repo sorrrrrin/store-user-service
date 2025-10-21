@@ -5,9 +5,10 @@ on:
     branches: ["**"]
   pull_request:
     branches: [main]
+
 permissions:
-  contents: write
-  packages: write
+  contents: read
+  packages: read
 
 jobs:
   build-and-test:
@@ -31,6 +32,10 @@ jobs:
           path: target/*.jar
 
   push-docker-image:
+    permissions:
+      contents: write
+      packages: write
+
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     needs: build-and-test
     runs-on: ubuntu-latest
