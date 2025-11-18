@@ -1,6 +1,9 @@
 package com.store.user.controllers;
 
 import com.store.user.dtos.LoginRequestDto;
+import com.store.user.dtos.LoginResponseDto;
+import com.store.user.dtos.UserResponseDto;
+import com.store.user.services.UserService;
 import com.store.user.utils.JwtUtil;
 import io.jsonwebtoken.Claims;
 import org.junit.jupiter.api.BeforeEach;
@@ -31,6 +34,9 @@ public class AuthControllerTest {
     private UserDetailsService userDetailsService;
 
     @Mock
+    private UserService userService;
+
+    @Mock
     private JwtUtil jwtUtil;
 
     @BeforeEach
@@ -38,6 +44,7 @@ public class AuthControllerTest {
         authController = new AuthController();
         authController.authenticationManager = authenticationManager;
         authController.userDetailsService = userDetailsService;
+        authController.userService = userService;
         authController.jwtUtil = jwtUtil;
     }
 
@@ -55,12 +62,25 @@ public class AuthControllerTest {
         when(jwtUtil.generateToken("testuser", Collections.emptyList())).thenReturn("jwtToken");
         when(jwtUtil.generateRefreshToken("testuser")).thenReturn("refreshToken");
 
-        ResponseEntity<Map<String, String>> response = authController.login(loginRequest);
+        UserResponseDto userResponse = UserResponseDto.builder()
+                .id("1")
+                .username("testuser")
+                .name("Test User")
+                .email("test@example.com")
+                .enabled(true)
+                .build();
+
+        when(userService.getUserByUsername("testuser")).thenReturn(userResponse);
+
+        ResponseEntity<LoginResponseDto> response = authController.login(loginRequest);
 
         assertNotNull(response);
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals("jwtToken", response.getBody().get("accessToken"));
-        assertEquals("refreshToken", response.getBody().get("refreshToken"));
+        assertNotNull(response.getBody());
+        assertEquals("jwtToken", response.getBody().getAccessToken());
+        assertEquals("refreshToken", response.getBody().getRefreshToken());
+        assertNotNull(response.getBody().getUser());
+        assertEquals("testuser", response.getBody().getUser().getUsername());
     }
 
     @Test
@@ -72,7 +92,7 @@ public class AuthControllerTest {
         doThrow(new RuntimeException("Invalid credentials")).when(authenticationManager)
                 .authenticate(any());
 
-        ResponseEntity<Map<String, String>> response = null;
+        ResponseEntity<LoginResponseDto> response = null;
         try {
             response = authController.login(loginRequest);
         } catch (RuntimeException e) {

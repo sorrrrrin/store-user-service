@@ -1,6 +1,7 @@
 package com.store.user.services;
 
 import com.store.user.dtos.UserDto;
+import com.store.user.dtos.UserResponseDto;
 import com.store.user.entities.User;
 import com.store.user.exceptions.UserNotFoundException;
 import com.store.user.mappers.UserMapper;
@@ -59,6 +60,11 @@ public class UserService implements UserDetailsService {
 
     public UserDto getUserById(String id) {
         return userMapper.userToUserDto(userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User with id " + id + " not found")));
+    }
+
+    public UserResponseDto getUserByUsername(String username) {
+        User user = userRepository.findByUsername(username).orElseThrow(() -> new UserNotFoundException("User not found with username: " + username));
+        return userMapper.userToUserResponseDto(user);
     }
 
     public UserDto addUser(UserDto userDto) {

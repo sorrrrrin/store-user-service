@@ -1,6 +1,9 @@
 package com.store.user.controllers;
 
 import com.store.user.dtos.LoginRequestDto;
+import com.store.user.dtos.LoginResponseDto;
+import com.store.user.dtos.UserResponseDto;
+import com.store.user.services.UserService;
 import com.store.user.utils.JwtUtil;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.http.HttpServletResponse;
@@ -26,12 +29,15 @@ public class AuthController {
     UserDetailsService userDetailsService;
 
     @Autowired
+    UserService userService;
+
+    @Autowired
     JwtUtil jwtUtil;
 
     private static final Set<String> invalidatedTokens = new HashSet<>();
 
     @PostMapping("/login")
-    public ResponseEntity<Map<String, String>> login(@RequestBody LoginRequestDto request) {
+    public ResponseEntity<LoginResponseDto> login(@RequestBody LoginRequestDto request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
         );
@@ -45,9 +51,14 @@ public class AuthController {
         String jwtToken = jwtUtil.generateToken(userDetails.getUsername(), roles);
         String refreshToken = jwtUtil.generateRefreshToken(userDetails.getUsername());
 
-        Map<String, String> response = new HashMap<>();
-        response.put("accessToken", jwtToken);
-        response.put("refreshToken", refreshToken);
+        // fetch user data (mapped to a safe DTO that excludes sensitive fields)
+        UserResponseDto userDto = userService.getUserByUsername(userDetails.getUsername());
+
+        LoginResponseDto response = LoginResponseDto.builder()
+                .accessToken(jwtToken)
+                .refreshToken(refreshToken)
+                .user(userDto)
+                .build();
 
         return ResponseEntity.ok(response);
     }
