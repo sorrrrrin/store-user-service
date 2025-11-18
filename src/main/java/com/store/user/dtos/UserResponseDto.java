@@ -19,6 +19,5 @@ public class UserResponseDto {
     private AddressDto address;
     private String username;
     private boolean enabled;
-    private Set<AuthorityDto> authorities;
+    private Set<AuthorityResponseDto> authorities;
 }
-
