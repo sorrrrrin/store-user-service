@@ -5,7 +5,7 @@ import com.store.user.dtos.UserResponseDto;
 import com.store.user.entities.User;
 import org.mapstruct.Mapper;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = {AuthorityMapper.class})
 public interface UserMapper {
 
     UserDto userToUserDto(User user);
