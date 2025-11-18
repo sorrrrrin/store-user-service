@@ -63,7 +63,6 @@ public class AuthControllerTest {
         when(jwtUtil.generateRefreshToken("testuser")).thenReturn("refreshToken");
 
         UserResponseDto userResponse = UserResponseDto.builder()
-                .id("1")
                 .username("testuser")
                 .name("Test User")
                 .email("test@example.com")
